@@ -1,0 +1,50 @@
+### Works with the VS Code "REST Client" extension. Start the server first.
+@base = http://127.0.0.1:8000
+
+### Health
+GET {{base}}/health
+
+### Create
+POST {{base}}/students
+Content-Type: application/json
+
+{"student_id":"STU-2001","full_name":"Nisha Example","date_of_birth":"2004-03-12","email":"nisha.example@example.com","phone":"+91 90000 11111","course":"Physics","address":"Dummy Address","enrollment_date":"2024-08-01"}
+
+### List with search, filter, sort, pagination
+GET {{base}}/students?search=nisha&course=Physics&sort_by=full_name&order=asc&page=1&page_size=10
+
+### Get one
+GET {{base}}/students/STU-2001
+
+### Replace (PUT needs all required fields)
+PUT {{base}}/students/STU-2001
+Content-Type: application/json
+
+{"student_id":"STU-2001","full_name":"Nisha Updated","date_of_birth":"2004-03-12","email":"nisha.example@example.com","course":"Chemistry"}
+
+### Partial update
+PATCH {{base}}/students/STU-2001
+Content-Type: application/json
+
+{"phone":"+91 90000 22222"}
+
+### Delete
+DELETE {{base}}/students/STU-2001
+
+### Missing record -> 404
+GET {{base}}/students/DOES-NOT-EXIST
+
+### Invalid data -> 422
+POST {{base}}/students
+Content-Type: application/json
+
+{"student_id":"X","full_name":"","date_of_birth":"2999-01-01","email":"bad"}
+
+### Dashboard stats
+GET {{base}}/api/stats
+
+### AI assistant (works even if Ollama is off)
+POST {{base}}/api/ai/ask
+Content-Type: application/json
+
+{"question":"How many students are enrolled in each course?"}

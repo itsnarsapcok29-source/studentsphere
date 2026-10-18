@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_name }} - Student Database Management</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='white' stroke-width='2.5'/%3E%3Cellipse cx='16' cy='16' rx='3' ry='7' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+</head>
+<body data-ai-enabled="{{ 'true' if ai_enabled else 'false' }}">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-dash" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6v-9h-6v9zm0-16v5h6V4h-6z" fill="currentColor"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 11a3 3 0 1 0-3-3 3 3 0 0 0 3 3zM8 11a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5C15 14.2 10.3 13 8 13zm8 0c-.3 0-.6 0-1 .1 1.2.8 2 1.9 2 3.4V19h6v-2.5c0-2.3-4.7-3.5-7-3.5z" fill="currentColor"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4zm3 13h11M8 4v13" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M4 10h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M8 14l4-4 4 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#/">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="#4f46e5"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="2.5"/><ellipse cx="16" cy="16" rx="3" ry="7" fill="none" stroke="#fff" stroke-width="1.5"/></svg></span>
+        <span><strong>{{ app_name }}</strong><small>Student database</small></span>
+      </a>
+      <nav class="nav">
+        <a href="#/" data-route="dashboard"><svg class="ic"><use href="#i-dash"/></svg>Dashboard</a>
+        <a href="#/students" data-route="students"><svg class="ic"><use href="#i-users"/></svg>Students</a>
+        <a href="#/add" data-route="add"><svg class="ic"><use href="#i-plus"/></svg>Add Student</a>
+        <a href="/docs" target="_blank" rel="noopener"><svg class="ic"><use href="#i-book"/></svg>API Documentation</a>
+        {% if ai_enabled %}<a href="#/assistant" data-route="assistant"><svg class="ic"><use href="#i-spark"/></svg>AI Assistant</a>{% endif %}
+        <a href="#/about" data-route="about"><svg class="ic"><use href="#i-info"/></svg>About</a>
+      </nav>
+      <div class="sidebar-foot">
+        <span class="status" id="server-status"><i></i><span>Checking server…</span></span>
+        <p>Developed by <strong>Narendra Vishnoi</strong><br>EWB Edu Tech Pvt. Ltd. internship</p>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu"><svg class="ic"><use href="#i-menu"/></svg></button>
+        <h1 id="page-title">Dashboard</h1>
+        <a class="btn btn-primary" href="#/add"><svg class="ic"><use href="#i-plus"/></svg>Add student</a>
+      </header>
+      <main id="view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  <div class="modal-root" id="modal-root"></div>
+  <script type="module" src="{{ url_for('static', path='js/app.js') }}"></script>
+</body>
+</html>
